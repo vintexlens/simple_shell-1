@@ -3,34 +3,34 @@
 int status;
 
 /**
- * lengthOfList - gets length of a list
- * @list: the list to find length of
- * @entry: the list entry to be indexed
+ * lengthOfList - gets length of a testList
+ * @testList: the testList to find length of
+ * @indexedEntry: the testList indexedEntry to be indexed
  * Return: length or index if success, -1 if failure
  */
-int lengthOfList(char **list, char *entry)
+int lengthOfList(char **testList, char *indexedEntry)
 {
 	int i = 0;
 
-	if (entry == NULL)
+	if (indexedEntry == NULL)
 	{
-		while (*list != NULL)
+		while (*testList != NULL)
 		{
 			i++;
-			list++;
+			testList++;
 		}
 		i++;
 		return (i);
 	}
 	else
 	{
-		while (*list != NULL)
+		while (*testList != NULL)
 		{
-			if (compareString(*list, entry, PREFIX) == POSITIVE)
+			if (compareString(*testList, indexedEntry, PREFIX) == POSITIVE)
 				return (i);
 
 			i++;
-			list++;
+			testList++;
 		}
 	}
 

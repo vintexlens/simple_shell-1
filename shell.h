@@ -76,7 +76,7 @@ int errorCheckerForInput(char *pointer);
 
 int getStringLength(char *string);
 
-int lengthOfList(char **list, char *entry);
+int lengthOfList(char **testList, char *indexedEntry);
 
 int compareString(char *firstString, char *secondString, int pref_or_match);
 
