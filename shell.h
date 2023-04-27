@@ -104,7 +104,7 @@ int configureAlias(char *arguement, alias *aliasPointer, char *setValue);
 
 int displayEnvironMentVariable(void);
 
-char *_itoa(int n);
+char *_itoa(int integer);
 
 int stringToInteger(char *string);
 

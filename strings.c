@@ -126,7 +126,7 @@ int getStringLength(char *string)
  */
 int stringToInteger(char *string)
 {
-	int n = 0;
+	int integer = 0;
 	int sign = 1;
 	int s_int;
 
@@ -142,52 +142,52 @@ int stringToInteger(char *string)
 		{
 			s_int = *string - 48;
 			if (sign == 1)
-				n = (n * 10) + s_int;
+				integer = (integer * 10) + s_int;
 			else
-				n = (n * 10) - s_int;
+				integer = (integer * 10) - s_int;
 		}
 		else
 			return (-1);
 		string++;
 	}
 
-	return (n);
+	return (integer);
 }
 
 /**
  * _itoa - string to integer
- * @n: integer to be changed
+ * @integer: integer to be changed
  * Return: the integer value
  */
 
-char *_itoa(int n)
+char *_itoa(int integer)
 {
 	char *buffer = malloc(12);
 	char *pointer = buffer;
 	int is_min = NEGATIVE;
-	int i_mask = 1000000000;
+	int integerMask = 1000000000;
 	int digit = 0;
 
-	if (n == INT_MIN)
+	if (integer == INT_MIN)
 	{
 		*pointer = '-';
 		pointer++;
-		n = INT_MAX;
+		integer = INT_MAX;
 		is_min = POSITIVE;
 	}
 
-	if (n < 0)
+	if (integer < 0)
 	{
 		*pointer = '-';
 		pointer++;
-		n = -n;
+		integer = -integer;
 	}
 
-	while (i_mask > 9 && digit == 0)
+	while (integerMask > 9 && digit == 0)
 	{
-		digit = n / i_mask;
-		n %= i_mask;
-		i_mask /= 10;
+		digit = integer / integerMask;
+		integer %= integerMask;
+		integerMask /= 10;
 	}
 
 	if (digit != 0)
@@ -196,19 +196,19 @@ char *_itoa(int n)
 		pointer++;
 	}
 
-	while (i_mask > 9)
+	while (integerMask > 9)
 	{
-		digit = n / i_mask;
+		digit = integer / integerMask;
 		*pointer = digit + '0';
 		pointer++;
-		n %= i_mask;
-		i_mask /= 10;
+		integer %= integerMask;
+		integerMask /= 10;
 	}
 
 	if (is_min == POSITIVE)
-		n += 1;
+		integer += 1;
 
-	*pointer = n + '0';
+	*pointer = integer + '0';
 	pointer++;
 	*pointer = '\0';
 	return (buffer);
