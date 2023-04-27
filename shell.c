@@ -39,7 +39,7 @@ int main(__attribute__((unused))int argc, char **argv)
 		if (separation == NEGATIVE)
 		{
 			if (isatty(STDIN_FILENO) == 1)
-				write(STDOUT_FILENO, "alx_shell$", 10);
+				write(STDOUT_FILENO, "alx_shell$ ", 11);
 
 			numberOfBytesRead = getline(&buffer, &sizeOfBuffer, stdin);
 

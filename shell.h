@@ -32,14 +32,14 @@ extern char *nameOfShell;
 
 /**
  * struct Alias - aliases linked list
- * @node_name: alias name
+ * @nodeName: alias name
  * @nodeValue: command called by alias
  * @nextNode: points to nextNode node
  */
 
 typedef struct Alias
 {
-    char *node_name;
+    char *nodeName;
     char *nodeValue;
     struct Alias *nextNode;
 } alias;
