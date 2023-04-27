@@ -30,6 +30,20 @@ extern int lineNumber;
 
 extern char *nameOfShell;
 
+/**
+ * struct Alias - aliases linked list
+ * @node_name: alias name
+ * @nodeValue: command called by alias
+ * @nextNode: points to nextNode node
+ */
+
+typedef struct Alias
+{
+    char *node_name;
+    char *nodeValue;
+    struct Alias *nextNode;
+} alias;
+
 void displayErrorMessage(char *arg0, char *arg1);
 
 char *checkIfNotBuiltIn(char **arguements);
@@ -89,20 +103,6 @@ int displayAliasValue(char *arguement, alias *aliasPointer);
 int configureAlias(char *arguement, alias *aliasPointer, char *setValue);
 
 int displayEnvironMentVariable(void);
-
-/**
- * struct Alias - aliases linked list
- * @node_name: alias name
- * @nodeValue: command called by alias
- * @nextNode: points to nextNode node
- */
-
-typedef struct Alias
-{
-    char *node_name;
-    char *nodeValue;
-    struct Alias *nextNode;
-} alias;
 
 
 #endif
