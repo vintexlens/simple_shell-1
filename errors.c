@@ -8,48 +8,48 @@ char *nameOfShell;
 
 /**
  * displayErrorMessage - display error messages
- * @arg0: the command that caused the error
- * @arg1: the arguement 1 for the command
+ * @errorCausingCommand: the command that caused the error
+ * @errorCausingCommandArguement: the arguement 1 for the command
  */
-void displayErrorMessage(char *arg0, char *arg1)
+void displayErrorMessage(char *errorCausingCommand, char *errorCausingCommandArguement)
 {
-	char *err_string_num = _itoa(lineNumber);
+	char *errorStringNumber = _itoa(lineNumber);
 
 	write(STDERR_FILENO, nameOfShell, getStringLength(nameOfShell));
 	write(STDERR_FILENO, ": ", 2);
-	write(STDERR_FILENO, err_string_num, getStringLength(err_string_num));
-	free(err_string_num);
+	write(STDERR_FILENO, errorStringNumber, getStringLength(errorStringNumber));
+	free(errorStringNumber);
 
-	if (compareString("cd", arg0, EQUAL) == POSITIVE)
+	if (compareString("cd", errorCausingCommand, EQUAL) == POSITIVE)
 	{
 		status = 2;
 		write(STDERR_FILENO, ": cd: Error, can't cd to", 17);
-		write(STDERR_FILENO, arg1, getStringLength(arg1));
+		write(STDERR_FILENO, errorCausingCommandArguement, getStringLength(errorCausingCommandArguement));
 		write(STDERR_FILENO, "\n", 1);
 		return;
 	}
 
-	if (compareString("exit", arg0, EQUAL) == POSITIVE)
+	if (compareString("exit", errorCausingCommand, EQUAL) == POSITIVE)
 	{
 		write(STDERR_FILENO, ": exit: Not Allowed: ", 24);
-		write(STDERR_FILENO, arg1, getStringLength(arg1));
+		write(STDERR_FILENO, errorCausingCommandArguement, getStringLength(errorCausingCommandArguement));
 		write(STDERR_FILENO, "\n", 1);
 		return;
 	}
-	if (*arg0 == ';' || *arg0 == '|' || *arg0 == '&')
+	if (*errorCausingCommand == ';' || *errorCausingCommand == '|' || *errorCausingCommand == '&')
 	{
 		status = 2;
 		write(STDERR_FILENO, ": Syntax error: \"", 17);
-		write(STDERR_FILENO, arg0, 1);
-		if (*arg0 == *(arg0 + 1))
-			write(STDERR_FILENO, arg0, 1);
+		write(STDERR_FILENO, errorCausingCommand, 1);
+		if (*errorCausingCommand == *(errorCausingCommand + 1))
+			write(STDERR_FILENO, errorCausingCommand, 1);
 		write(STDERR_FILENO, "\" unexpected\n", 14);
 		return;
 	}
 
 	status = 127;
 	write(STDERR_FILENO, ": ", 2);
-	write(STDERR_FILENO, arg0, getStringLength(arg0));
+	write(STDERR_FILENO, errorCausingCommand, getStringLength(errorCausingCommand));
 	write(STDERR_FILENO, ": not found\n", 12);
 }
 
