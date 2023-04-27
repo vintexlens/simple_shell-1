@@ -60,10 +60,6 @@ int errorCheckerForInput(char *pointer);
 
 void displayErrorMessage(char *arg0, char *arg1);
 
-//void *_realloc(void *pointer, unsigned int previousSize, unsigned int createdArraySize);
-
-//int _getline(char **line_pointer, size_t *n, int file);
-
 char *checkIfArgumentIsVariable(char *arguement);
 
 int getStringLength(char *string);
