@@ -40,8 +40,8 @@ int compareString(char *firstString, char *secondString, int pref_or_match)
 char *concatenateString(char *firstString, char *secondString)
 {
 	int len = getStringLength(firstString) + getStringLength(secondString);
-	char *dest = malloc(len + 1);
-	char *pointer = dest;
+	char *destination = malloc(len + 1);
+	char *pointer = destination;
 
 	if (firstString != NULL)
 	{
@@ -65,36 +65,36 @@ char *concatenateString(char *firstString, char *secondString)
 
 	*pointer = '\0';
 
-	return (dest);
+	return (destination);
 }
 
 /**
  * copyString - sets aside space in memory for a copy of a string
- * @src: string that makes the copy
+ * @source: string that makes the copy
  * Return: pointer to copy or NULL
  */
 
-char *copyString(char *src)
+char *copyString(char *source)
 {
-	int len = getStringLength(src);
-	char *dest = malloc(len + 1);
+	int len = getStringLength(source);
+	char *destination = malloc(len + 1);
 	char *pointer;
 
-	if (dest == NULL)
+	if (destination == NULL)
 		exit(EXIT_FAILURE);
 
-	pointer = dest;
+	pointer = destination;
 
-	while (*src != '\0')
+	while (*source != '\0')
 	{
-		*pointer = *src;
+		*pointer = *source;
 		pointer++;
-		src++;
+		source++;
 	}
 
 	*pointer = '\0';
 
-	return (dest);
+	return (destination);
 }
 
 /**
