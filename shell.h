@@ -48,7 +48,7 @@ int commandRuntimeHandler(char **arguements);
 
 int checkIfCommandInbuilt(char **arguements);
 
-int and_or(char **arguements, char operator, int last_compare);
+int logicalOperatorHandler(char **arguements, char operator, int last_compare);
 
 char *checkIfNotBuiltIn(char **arguements);
 

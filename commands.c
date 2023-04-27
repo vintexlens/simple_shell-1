@@ -126,7 +126,7 @@ int commandRuntimeHandler(char **arguements)
 		if (nextOperationCode == 'c')
 			break;
 
-		lastEvaluation = and_or(arguements, lastOperationCode, lastEvaluation);
+		lastEvaluation = logicalOperatorHandler(arguements, lastOperationCode, lastEvaluation);
 		if (lastEvaluation == NEGATIVE)
 			nullError = NEGATIVE;
 		lastOperationCode = nextOperationCode;
