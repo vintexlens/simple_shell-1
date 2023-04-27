@@ -5,12 +5,12 @@ int status;
 char *nameOfShell;
 
 /**
- * checkIfCommandInbuilt - checks if a command is a built in
+ * checkIfCommandInbuilt - test if a command is built-in
  * @arguements: command and arguments
- *
- * Return: DONT_CREATE_NEW_CHILD_PROCESS if built in, LAUNCH_RUNTIME_PROCESS if not a built in, TERMINATE_PROCESS_EXECUTION if
- * exit shell, EXIT_SHELL_CODE if exiting with a particular code
+ * Return: DONT_CREATE_NEW_CHILD_PROCESS for built-ins, LAUNCH_RUNTIME_PROCESS for none built in, TERMINATE_PROCESS_EXECUTION for
+ * shell exit, EXIT_SHELL_CODE for exit with a given status code
  */
+
 int checkIfCommandInbuilt(char **arguements)
 {
 	int i;

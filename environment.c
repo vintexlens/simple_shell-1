@@ -3,10 +3,10 @@
 int status;
 
 /**
- * displayEnvironMentVariable - prints the environ
- *
+ * displayEnvironMentVariable - prints the environment
  * Return: POSITIVE
  */
+
 int displayEnvironMentVariable(void)
 {
 	char **pointer = environ;
@@ -24,17 +24,17 @@ int displayEnvironMentVariable(void)
 }
 
 /**
- * configureEnvironmentVariable - sets and environmental variable
- * @name: name of the variable
- * @value: value to set the variable to
- *
- * Return: 0 on success
+ * configureEnvironmentVariable - sets environment dependencies
+ * @name: vabriable name
+ * @value: variable value
+ * Return: status code 0
  */
+
 int configureEnvironmentVariable(const char *name, const char *value)
 {
 	char **createdEnvironment;
 	char *buffer;
-	char *buffer_temporary;
+	char *temporaryBuffer;
 	char *element_pointer = findArrayElement(environ, (char *) name);
 	int len;
 
@@ -45,14 +45,14 @@ int configureEnvironmentVariable(const char *name, const char *value)
 		return (DONT_CREATE_NEW_CHILD_PROCESS);
 	}
 
-	buffer = string_concat((char *)name, "=");
-	buffer_temporary = string_concat(buffer, (char *)value);
+	buffer = concatenateString((char *)name, "=");
+	temporaryBuffer = concatenateString(buffer, (char *)value);
 	free(buffer);
-	buffer = buffer_temporary;
+	buffer = temporaryBuffer;
 
 	if (element_pointer == NULL)
 	{
-		len = list_len(environ, NULL);
+		len = lengthOfList(environ, NULL);
 		createdEnvironment = duplicateArray(environ, len + 1);
 		createdEnvironment[len - 1] = buffer;
 		createdEnvironment[len] = NULL;
@@ -61,7 +61,7 @@ int configureEnvironmentVariable(const char *name, const char *value)
 		return (DONT_CREATE_NEW_CHILD_PROCESS);
 	}
 
-	len = list_len(environ, (char *)name);
+	len = lengthOfList(environ, (char *)name);
 	free(environ[len]);
 	environ[len] = buffer;
 
@@ -72,15 +72,14 @@ int configureEnvironmentVariable(const char *name, const char *value)
 
 
 /**
- * deleteEnvironmentVariable - deletes an environmental variable
- * @name: name of variable
- *
- * Return: 0 if successful
+ * deleteEnvironmentVariable - removes an environment variable
+ * @name: variable name
+ * Return: status code 0
  */
 int deleteEnvironmentVariable(const char *name)
 {
 	char **env_pointer;
-	int len = list_len(environ, (char *)name);
+	int len = lengthOfList(environ, (char *)name);
 
 	if (len == -1)
 	{

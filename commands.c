@@ -5,11 +5,11 @@ int status;
 char *nameOfShell;
 
 /**
- * checkIfNotBuiltIn - checks if a non-built-in exists
- * @arguements: argument and commands
- *
- * Return: POSITIVE if valid command, NEGATIVE if not
+ * checkIfNotBuiltIn - tests for non-built-in commands
+ * @arguements: commands
+ * Return: POSITIVE for command, NEGATIVE if not
  */
+
 char *checkIfNotBuiltIn(char **arguements)
 {
 	char *commandBuffer;
@@ -32,7 +32,7 @@ char *checkIfNotBuiltIn(char **arguements)
 	{
 		if (*environmentPathString == ':')
 		{
-			commandBuffer = string_concat("./", *arguements);
+			commandBuffer = concatenateString("./", *arguements);
 			if (access(commandBuffer, X_OK) == 0)
 			{
 				free(environmentPathString);
@@ -51,8 +51,8 @@ char *checkIfNotBuiltIn(char **arguements)
 			if (*environmentPathPointer == ':' && *(environmentPathPointer + 1) == ':')
 			{
 				*(environmentPathPointer + 1) = '\0';
-				temporaryEnvironmentPath = (string_concat(environmentPathString, ".:"));
-				environmentPathPointer = string_concat(temporaryEnvironmentPath, environmentPathPointer + 2);
+				temporaryEnvironmentPath = (concatenateString(environmentPathString, ".:"));
+				environmentPathPointer = concatenateString(temporaryEnvironmentPath, environmentPathPointer + 2);
 				free(environmentPathString);
 				free(temporaryEnvironmentPath);
 				environmentPathString = environmentPathPointer;
@@ -64,14 +64,14 @@ char *checkIfNotBuiltIn(char **arguements)
 	environmentPathVariable = createArray(environmentPathString, ':', NULL);
 	environmentPathVariablePointer = environmentPathVariable;
 
-	commandBuffer = string_concat("/", *arguements);
+	commandBuffer = concatenateString("/", *arguements);
 
 	fullBuffer = copyString(commandBuffer);
 
 	while (*environmentPathVariablePointer != NULL && access(fullBuffer, X_OK) != 0)
 	{
 		free(fullBuffer);
-		fullBuffer = string_concat(*environmentPathVariablePointer, commandBuffer);
+		fullBuffer = concatenateString(*environmentPathVariablePointer, commandBuffer);
 		environmentPathVariablePointer++;
 	}
 
@@ -91,11 +91,11 @@ char *checkIfNotBuiltIn(char **arguements)
 
 
 /**
- * commandRuntimeHandler - manages the process a command goes through to get executed
- * @arguements: command and arguments
- *
- * Return: POSITIVE if success, NEGATIVE if failure
+ * commandRuntimeHandler - manages runtime process of a command
+ * @arguements: commands
+ * Return: POSITIVE for success, NEGATIVE if there's an error
  */
+
 int commandRuntimeHandler(char **arguements)
 {
 	char **arguementsPointer = arguements;
@@ -148,10 +148,9 @@ int commandRuntimeHandler(char **arguements)
 }
 
 /**
- * changeDirectory - changes the current working directory
- * @name: name of directory to change to
- *
- * Return: 0 if successful
+ * changeDirectory - change directory logic
+ * @name: directory name
+ * Return: Status code 0 if successful
  */
 
 int changeDirectory(char *name)
@@ -159,10 +158,10 @@ int changeDirectory(char *name)
 	char *home;
 	char *pwd;
 	char path_buffer[PATH_MAX];
-	size_t buffer_size = PATH_MAX;
+	size_t sizeOfBuffer = PATH_MAX;
 	int i;
 
-	getcwd(path_buffer, buffer_size);
+	getcwd(path_buffer, sizeOfBuffer);
 
 	if (name == NULL || compareString("~", name, PREFIX) == POSITIVE
 	    || compareString("$HOME", name, EQUAL) == POSITIVE)
@@ -237,14 +236,14 @@ int changeDirectory(char *name)
 
 
 /**
- * runCommand - executes a command
- * @arguements: command and arguments
- *
+ * runCommand - runs the command
+ * @arguements: commands
  * Return: POSITIVE or TERMINATE_PROCESS_EXECUTION
  */
+
 int runCommand(char **arguements)
 {
-	char *buffer_pointer = *arguements;
+	char *bufferPointer = *arguements;
 	char *command_name;
 	pid_t process_id;
 	int nextStep = checkIfCommandInbuilt(arguements);
@@ -273,19 +272,19 @@ int runCommand(char **arguements)
 	if (compareString("NEGATIVE", *arguements, EQUAL) == POSITIVE)
 		status = 1;
 
-	if (*arguements != buffer_pointer)
+	if (*arguements != bufferPointer)
 		free(*arguements);
 	arguements++;
 
 	while (*arguements != NULL)
 	{
-		while (*buffer_pointer != '\0')
+		while (*bufferPointer != '\0')
 		{
-			buffer_pointer++;
+			bufferPointer++;
 		}
-		buffer_pointer++;
+		bufferPointer++;
 
-		if (*arguements != buffer_pointer)
+		if (*arguements != bufferPointer)
 			free(*arguements);
 
 		arguements++;

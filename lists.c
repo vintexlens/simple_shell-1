@@ -3,13 +3,12 @@
 int status;
 
 /**
- * list_len - finds the length of a list, or the index of an entry
- * @list: list to be evaluated
- * @entry: entry to be indexed
- *
+ * lengthOfList - gets length of a list
+ * @list: the list to find length of
+ * @entry: the list entry to be indexed
  * Return: length or index if success, -1 if failure
  */
-int list_len(char **list, char *entry)
+int lengthOfList(char **list, char *entry)
 {
 	int i = 0;
 

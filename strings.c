@@ -1,67 +1,65 @@
 #include "shell.h"
 
 /**
- * compareString - compare two stringing
- * @s1: stringing to be compared
- * @s2: stringing to be compared
- * @pref_or_match: if stringing needs to be matched exactly or if just a prefix
- * needs to be matched
- *
- * Return: difference between stringings
+ * compareString - compare strings
+ * @firstString: string 1
+ * @secondString: string 2
+ * @pref_or_match: if prefix or string need to be matched exactly
+ * Return: the diffrence of the 2 strings
  */
-int compareString(char *s1, char *s2, int pref_or_match)
+
+int compareString(char *firstString, char *secondString, int pref_or_match)
 {
-	if (s1 == NULL || s2 == NULL)
+	if (firstString == NULL || secondString == NULL)
 		return (NEGATIVE);
 
-	while (*s1 != '\0' && *s2 != '\0')
+	while (*firstString != '\0' && *secondString != '\0')
 	{
-		if (*s1 != *s2)
+		if (*firstString != *secondString)
 			return (NEGATIVE);
 
-		s1++;
-		s2++;
+		firstString++;
+		secondString++;
 	}
 
 	if (pref_or_match == PREFIX)
 		return (POSITIVE);
 
-	if (*s1 == *s2)
+	if (*firstString == *secondString)
 		return (POSITIVE);
 
 	return (NEGATIVE);
 }
 
 /**
- * string_concat - concatenates two stringings
- * @s1: first stringing
- * @s2: second stringing
- *
- * Return: a pointer to the new stringing, or NULL if failure
+ * concatenateString - string concatenation
+ * @firstString: string 1
+ * @secondString: string 2
+ * Return: pointer to new string else NULL
  */
-char *string_concat(char *s1, char *s2)
+char *concatenateString(char *firstString, char *secondString)
 {
-	int len = getStringLength(s1) + getStringLength(s2);
+	int len = getStringLength(firstString) + getStringLength(secondString);
 	char *dest = malloc(len + 1);
 	char *pointer = dest;
 
-	if (s1 != NULL)
+	if (firstString != NULL)
 	{
-		while (*s1 != '\0')
+		while (*firstString != '\0')
 		{
-			*pointer = *s1;
+			*pointer = *firstString;
 			pointer++;
-			s1++;
+			firstString++;
 		}
 	}
 
-	if (s2 != NULL)
+	if (secondString != NULL)
 	{
-		while (*s2 != '\0')
+		while (*secondString != '\0')
 		{
-			*pointer = *s2;
+			*pointer = *secondString;
 			pointer++;
-			s2++;
+			secondString++;
 		}
 	}
 
@@ -71,11 +69,11 @@ char *string_concat(char *s1, char *s2)
 }
 
 /**
- * copyString - allocates a space in memory for a copy of a stringing
- * @src: stringing a copy is made of
- *
- * Return: a pointer to the copy, or NULL if failure
+ * copyString - sets aside space in memory for a copy of a string
+ * @src: string that makes the copy
+ * Return: pointer to copy or NULL
  */
+
 char *copyString(char *src)
 {
 	int len = getStringLength(src);
@@ -100,11 +98,11 @@ char *copyString(char *src)
 }
 
 /**
- *  getStringLength - returns length of a stringing
- * @string: stringing to be evaluated
- *
- * Return: the length of the stringing
+ *  getStringLength - gets length of a string
+ * @string: string to test
+ * Return: string length
  */
+
 int getStringLength(char *string)
 {
 	int i = 0;
@@ -122,28 +120,27 @@ int getStringLength(char *string)
 }
 
 /**
- * stringToInteger - converts a string into a number
- * @s: string to be converted
- *
- * Return: the converted number
+ * stringToInteger - change string to number
+ * @string: the string
+ * Return: the number equivalent
  */
-int stringToInteger(char *s)
+int stringToInteger(char *string)
 {
 	int n = 0;
 	int sign = 1;
 	int s_int;
 
-	if (*s == '=' && *(s + 1) >= '0' && *(s + 1) <= '9')
+	if (*string == '=' && *(string + 1) >= '0' && *(string + 1) <= '9')
 	{
 		sign = -1;
-		s++;
+		string++;
 	}
 
-	while (*s != '\0')
+	while (*string != '\0')
 	{
-		if (*s >= '0' && *s <= '9')
+		if (*string >= '0' && *string <= '9')
 		{
-			s_int = *s - 48;
+			s_int = *string - 48;
 			if (sign == 1)
 				n = (n * 10) + s_int;
 			else
@@ -151,22 +148,22 @@ int stringToInteger(char *s)
 		}
 		else
 			return (-1);
-		s++;
+		string++;
 	}
 
 	return (n);
 }
 
 /**
- * _itoa - converts an int into a stringing
- * @n: int to be converted
- *
- * Return: the converted number
+ * _itoa - string to integer
+ * @n: integer to be changed
+ * Return: the integer value
  */
+
 char *_itoa(int n)
 {
-	char *buf = malloc(12);
-	char *pointer = buf;
+	char *buffer = malloc(12);
+	char *pointer = buffer;
 	int is_min = NEGATIVE;
 	int i_mask = 1000000000;
 	int digit = 0;
@@ -214,5 +211,5 @@ char *_itoa(int n)
 	*pointer = n + '0';
 	pointer++;
 	*pointer = '\0';
-	return (buf);
+	return (buffer);
 }

@@ -25,14 +25,14 @@ extern char **environ;
 
 extern int status;
 
-extern int line_num;
+extern int lineNumber;
 
 extern char *nameOfShell;
 
 /**
- * struct Alias - singly linked list
- * @node_name: name of alias
- * @nodeValue: command that alias calls
+ * struct Alias - aliases linked list
+ * @node_name: alias name
+ * @nodeValue: command called by alias
  * @nextNode: points to nextNode node
  */
 typedef struct Alias
@@ -54,13 +54,13 @@ char *checkIfNotBuiltIn(char **arguements);
 
 int runCommand(char **arguements);
 
-char *input_san(char *old_buf, size_t *old_size);
+char *inputCleaner(char *previousBuffer, size_t *previousSize);
 
-int input_err_check(char *pointer);
+int errorCheckerForInput(char *pointer);
 
 void displayErrorMessage(char *arg0, char *arg1);
 
-void *_realloc(void *pointer, unsigned int old_size, unsigned int createdArraySize);
+void *_realloc(void *pointer, unsigned int previousSize, unsigned int createdArraySize);
 
 int _getline(char **line_pointer, size_t *n, int file);
 
@@ -70,15 +70,15 @@ int getStringLength(char *string);
 
 char *copyString(char *src);
 
-char *string_concat(char *s1, char *s2);
+char *concatenateString(char *firstString, char *secondString);
 
-int compareString(char *s1, char *s2, int pref_or_match);
+int compareString(char *firstString, char *secondString, int pref_or_match);
 
 char *findArrayElement(char **array, char *itemName);
 
 char **createArray(char *string, char endOfListEntryChar, char **ifSemiColonPointer);
 
-int list_len(char **list, char *entry);
+int lengthOfList(char **list, char *entry);
 
 char **duplicateArray(char **previousArray, int createdArraySize);
 
@@ -106,6 +106,6 @@ int displayEnvironMentVariable(void);
 
 char *_itoa(int n);
 
-int stringToInteger(char *s);
+int stringToInteger(char *string);
 
 #endif

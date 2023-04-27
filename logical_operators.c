@@ -5,13 +5,13 @@ int status;
 char *nameOfShell;
 
 /**
- * and_or - deals with command line logical operators
- * @arguements: command and arguments
- * @operator: first char of logical operator
- * @last_compare: if last command in logic evaluated to POSITIVE or NEGATIVE
- *
+ * and_or - handles logical operators
+ * @arguements: commands
+ * @operator: the initial character of a logical operator
+ * @last_compare: boolean of whether last command evaluated to POSITIVE or NEGATIVE
  * Return: if this command evaluates to POSITIVE or NEGATIVE
  */
+
 int and_or(char **arguements, char operator, int last_compare)
 {
 	int i;

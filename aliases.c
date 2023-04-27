@@ -3,12 +3,12 @@
 int status;
 
 /**
- * commandAliasProcessing - deals with command aliases
- * @arguements: arguments from command line
- * @toBeFreed: indicated if aliases need to be freed (exiting shell);
+ * commandAliasProcessing - handles command aliases
+ * @arguements: command line arguements
+ * @toBeFreed: boolean for whether aliases need to be freed on shell exit;
  *
- * Return: POSITIVE if exiting, NEGATIVE if the command is not "alias" or an alias,
- * DONT_CREATE_NEW_CHILD_PROCESS if success
+ * Return: POSITIVE for exit, NEGATIVE if not alias,
+ * DONT_CREATE_NEW_CHILD_PROCESS for success
  */
 
 int commandAliasProcessing(char **arguements, int toBeFreed)
@@ -46,10 +46,9 @@ int commandAliasProcessing(char **arguements, int toBeFreed)
 }
 
 /**
- * replaceIfAlias - if the alias command is not called, this will check if the
- * command is an alias, and if so replace it with it's value
- * @arguements: argument to be checked
- * @aliasPointer: points to list of aliases to be checked against
+ * replaceIfAlias - replaces command with it value if alias
+ * @arguements: argument to be tested
+ * @aliasPointer: pointer to list of aliases
  *
  * Return: POSITIVE
  */
@@ -68,8 +67,8 @@ int replaceIfAlias(char **arguements, alias *aliasPointer)
 }
 
 /**
- * releaseAlias - frees all aliases
- * @aliasPointer: pointer to headNode of alias list
+ * releaseAlias - frees up resources used by aliases
+ * @aliasPointer: points to headNode of the alias list
  *
  * Return: POSITIVE
  */
@@ -90,8 +89,8 @@ int releaseAlias(alias *aliasPointer)
 }
 
 /**
- * displayAliases - prints all aliases in list
- * @aliasPointer: points to list of aliases
+ * displayAliases - print all alises in list
+ * @aliasPointer: pointer to list of aliases
  *
  * Return: DONT_CREATE_NEW_CHILD_PROCESS
  */
@@ -111,11 +110,11 @@ int displayAliases(alias *aliasPointer)
 
 
 /**
- * displayAliasValue - prints the value of a particular alias
- * @arguement: name of alias
- * @aliasPointer: points to list of aliases
+ * displayAliasValue - print alias value
+ * @arguement: alias name
+ * @aliasPointer: pointer to a list of aliases
  *
- * Return: POSITIVE if valid alias, NEGATIVE if not
+ * Return: POSITIVE if alias, NEGATIVE if not alias
  */
 int displayAliasValue(char *arguement, alias *aliasPointer)
 {
@@ -143,10 +142,10 @@ int displayAliasValue(char *arguement, alias *aliasPointer)
 }
 
 /**
- * configureAlias - initializes an alias or resets its value if it exists
- * @arguement: name of alias
- * @aliasPointer: pointer to list of aliases
- * @setValue: value of alias to be set
+ * configureAlias - sets value of an alias
+ * @arguement: alias name
+ * @aliasPointer: pointer alias list
+ * @setValue: value to set for alias
  *
  * Return: POSITIVE
  */

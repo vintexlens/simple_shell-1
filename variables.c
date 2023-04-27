@@ -2,17 +2,16 @@
 
 int status;
 
-int line_num;
+int lineNumber;
 
 char *nameOfShell;
 
 /**
- * checkIfArgumentIsVariable - checks an argument to see if it is a variable and if so,
- * replaces it with it's value
- * @arguement: argument to be checked
- *
- * Return: a pointer to the evaluated argument (either new or an altered duplicate)
+ * checkIfArgumentIsVariable - tests if an argument is a variable and replaces with its value if true
+ * @arguement: argument to test
+ * Return: pointer to tested arguement
  */
+
 char *checkIfArgumentIsVariable(char *arguement)
 {
 	char *temporary;
@@ -57,7 +56,7 @@ char *checkIfArgumentIsVariable(char *arguement)
 				temporary = copyString("");
 
 			*pointer = '\0';
-			pointer = string_concat(duplicate, temporary);
+			pointer = concatenateString(duplicate, temporary);
 			free(temporary);
 			if (isAVariable == NEGATIVE)
 			{
@@ -69,7 +68,7 @@ char *checkIfArgumentIsVariable(char *arguement)
 				*nextNode = '$';
 			else if (isAVariable == NONE)
 				*nextNode = '#';
-			temporary = string_concat(pointer, nextNode);
+			temporary = concatenateString(pointer, nextNode);
 			free(pointer);
 			pointer = temporary;
 			free(duplicate);

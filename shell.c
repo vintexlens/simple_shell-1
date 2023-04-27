@@ -2,84 +2,84 @@
 
 int status = 0;
 
-int line_num = 1;
+int lineNumber = 1;
 
 char *nameOfShell = NULL;
 
 /**
- * main - executes commands from the terminal
- * @ac: number of inputs from main
- * @av: array of inputs from main
- *
- * Return: 0, or another number if desired
+ * main - runs the core logic of the shell
+ * @argc: argc, number of cmd arguments
+ * @argv: argv, array of cmd arguements
+ * Return: status code 0
  */
-int main(__attribute__((unused))int ac, char **av)
+
+int main(__attribute__((unused))int argc, char **argv)
 {
-	int bytes_read;
-	int is_separated = NEGATIVE;
+	int numberOfBytesRead;
+	int separation = NEGATIVE;
 	int i;
-	size_t buffer_size = 1;
-	char *buf = NULL;
-	char *buffer_pointer;
-	char *buffer_temporary;
+	size_t sizeOfBuffer = 1;
+	char *buffer = NULL;
+	char *bufferPointer;
+	char *temporaryBuffer;
 	char **arguements = NULL;
 
-	nameOfShell = copyString(*av);
+	nameOfShell = copyString(*argv);
 
-	environ = duplicateArray(environ, list_len(environ, NULL));
+	environ = duplicateArray(environ, lengthOfList(environ, NULL));
 
 	signal(SIGINT, SIG_IGN);
 
-	buf = malloc(1);
-	if (buf == NULL)
+	buffer = malloc(1);
+	if (buffer == NULL)
 		exit(EXIT_FAILURE);
 
 	while (1)
 	{
-		if (is_separated == NEGATIVE)
+		if (separation == NEGATIVE)
 		{
 			if (isatty(STDIN_FILENO) == 1)
 				write(STDOUT_FILENO, "alx_shell$", 10);
 
-			bytes_read = getline(&buf, &buffer_size, stdin);
+			numberOfBytesRead = getline(&buffer, &sizeOfBuffer, stdin);
 
-			if (bytes_read == -1)
+			if (numberOfBytesRead == -1)
 				break;
-			if (bytes_read == 1)
+			if (numberOfBytesRead == 1)
 			{
-				line_num++;
+				lineNumber++;
 				continue;
 			}
-			buf[bytes_read - 1] = '\0';
-			buf = input_san(buf, &buffer_size);
-			if (buffer_size == 0)
+			buffer[numberOfBytesRead - 1] = '\0';
+			buffer = inputCleaner(buffer, &sizeOfBuffer);
+			if (sizeOfBuffer == 0)
 			{
-				line_num++;
+				lineNumber++;
 				continue;
 			}
-			buffer_pointer = buf;
+			bufferPointer = buffer;
 		}
 		else
-			buffer_pointer = buffer_temporary;
+			bufferPointer = temporaryBuffer;
 
-		buffer_temporary = NULL;
-		arguements = createArray(buffer_pointer, ' ', &buffer_temporary);
-		if (buffer_temporary != NULL)
-			is_separated = POSITIVE;
+		temporaryBuffer = NULL;
+		arguements = createArray(bufferPointer, ' ', &temporaryBuffer);
+		if (temporaryBuffer != NULL)
+			separation = POSITIVE;
 		else
-			is_separated = NEGATIVE;
+			separation = NEGATIVE;
 
 		i = commandRuntimeHandler(arguements);
 
 		free(arguements);
 
-		if (is_separated == NEGATIVE)
-			line_num++;
+		if (separation == NEGATIVE)
+			lineNumber++;
 
 		if (i == TERMINATE_PROCESS_EXECUTION)
 			break;
 	}
-	free(buf);
+	free(buffer);
 	commandAliasProcessing(NULL, POSITIVE);
 	releaseArray(environ);
 	free(nameOfShell);

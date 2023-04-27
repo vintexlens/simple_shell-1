@@ -3,9 +3,9 @@
 int status;
 
 /**
- * duplicateArray - copies an array
- * @previousArray: array to be copied
- * @createdArraySize: size of new array
+ * duplicateArray - duplicates an array
+ * @previousArray: the array to duplicate
+ * @createdArraySize: new array size
  *
  * Return: the new array
  */
@@ -29,8 +29,8 @@ char **duplicateArray(char **previousArray, int createdArraySize)
 }
 
 /**
- * releaseArray - frees a two dimensional array
- * @arguements: array to be freed
+ * releaseArray - releases resources used by 2D array
+ * @arguements: the array to release
  *
  * Return: POSITIVE
  */
@@ -50,9 +50,9 @@ int releaseArray(char **arguements)
 }
 
 /**
- * findArrayElement - gets an element of an array
- * @array: array to be searched
- * @itemName: name of element to be found
+ * findArrayElement - find given element in an array
+ * @array: array with the element
+ * @itemName: element name
  *
  * Return: the array element, or NULL if it is not found
  */
@@ -70,13 +70,13 @@ char *findArrayElement(char **array, char *itemName)
 }
 
 /**
- * createArray - makes a list from a buffer
- * @string: the buffer
- * @endOfListEntryChar: character to mark the end of a list entry
- * @ifSemiColonPointer: if the stringing has semicolons, ifSemiColonPointer becomes the location after the
+ * createArray - create array from buffer
+ * @string: the buffer to use
+ * @endOfListEntryChar: EOF charcater
+ * @ifSemiColonPointer: if the buffer has semicolons, ifSemiColonPointer becomes the location after the
  * semicolon
  *
- * Return: a pointer to the list
+ * Return: a pointer to the array
  */
 char **createArray(char *string, char endOfListEntryChar, char **ifSemiColonPointer)
 {

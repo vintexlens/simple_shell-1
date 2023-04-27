@@ -2,18 +2,18 @@
 
 int status;
 
-int line_num;
+int lineNumber;
 
 char *nameOfShell;
 
 /**
- * displayErrorMessage - prints error messages and sets status
- * @arg0: command that is causing error
- * @arg1: first argument to command
+ * displayErrorMessage - display error messages
+ * @arg0: the command that caused the error
+ * @arg1: the arguement 1 for the command
  */
 void displayErrorMessage(char *arg0, char *arg1)
 {
-	char *err_string_num = _itoa(line_num);
+	char *err_string_num = _itoa(lineNumber);
 
 	write(STDERR_FILENO, nameOfShell, getStringLength(nameOfShell));
 	write(STDERR_FILENO, ": ", 2);
@@ -23,7 +23,7 @@ void displayErrorMessage(char *arg0, char *arg1)
 	if (compareString("cd", arg0, EQUAL) == POSITIVE)
 	{
 		status = 2;
-		write(STDERR_FILENO, ": cd: can't cd to", 17);
+		write(STDERR_FILENO, ": cd: Error, can't cd to", 17);
 		write(STDERR_FILENO, arg1, getStringLength(arg1));
 		write(STDERR_FILENO, "\n", 1);
 		return;
@@ -31,7 +31,7 @@ void displayErrorMessage(char *arg0, char *arg1)
 
 	if (compareString("exit", arg0, EQUAL) == POSITIVE)
 	{
-		write(STDERR_FILENO, ": exit: Illegal number: ", 24);
+		write(STDERR_FILENO, ": exit: Not Allowed: ", 24);
 		write(STDERR_FILENO, arg1, getStringLength(arg1));
 		write(STDERR_FILENO, "\n", 1);
 		return;
@@ -55,30 +55,30 @@ void displayErrorMessage(char *arg0, char *arg1)
 
 
 /**
- * input_err_check - helper function for sanitizer, check for unexpected char
- * @pointer: pointer to area that needs to be checked
- *
- * Return: POSITIVE if no error, NEGATIVE if error
+ * errorCheckerForInput - checks for unwanted characters
+ * @pointer: pointer to segment that should be checked
+ * Return: POSITIVE for no error, NEGATIVE for error
  */
-int input_err_check(char *pointer)
-{
-	char *iter = pointer;
 
-	iter++;
-	if (*pointer == ';' && *iter == *pointer)
+int errorCheckerForInput(char *pointer)
+{
+	char *looper = pointer;
+
+	looper++;
+	if (*pointer == ';' && *looper == *pointer)
 	{
 		displayErrorMessage(pointer, NULL);
 		return (NEGATIVE);
 	}
-	if (*iter == *pointer)
-		iter++;
+	if (*looper == *pointer)
+		looper++;
 
-	while (*iter == ' ')
-		iter++;
+	while (*looper == ' ')
+		looper++;
 
-	if (*iter == ';' || *iter == '|' || *iter == '&')
+	if (*looper == ';' || *looper == '|' || *looper == '&')
 	{
-		displayErrorMessage(iter, NULL);
+		displayErrorMessage(looper, NULL);
 		return (NEGATIVE);
 	}
 
@@ -86,69 +86,69 @@ int input_err_check(char *pointer)
 }
 
 /**
- * input_san - sanitizes input from the command line
- * @old_buf: buffer to be sanitized
- * @old_size: size of old buffer
+ * inputCleaner - cleans up command line input
+ * @previousBuffer: buffer to be cleaned up
+ * @previousSize: the size of the prvious buffer
  *
  * Return: the new, sanitized buffer
  */
-char *input_san(char *old_buf, size_t *old_size)
+char *inputCleaner(char *previousBuffer, size_t *previousSize)
 {
-	char *new_buf = malloc(*old_size * 3);
-	char *new_pointer = new_buf;
-	char *old_pointer = old_buf;
+	char *currentBuffer = malloc(*previousSize * 3);
+	char *newPointer = currentBuffer;
+	char *oldPointer = previousBuffer;
 
-	while (*old_pointer != '\0')
+	while (*oldPointer != '\0')
 	{
-		while (*old_pointer == ' ')
-			old_pointer++;
-		while (*old_pointer	!= ' ' && *old_pointer != ';' && *old_pointer != '|'
-		       && *old_pointer != '&' && *old_pointer != '\0')
+		while (*oldPointer == ' ')
+			oldPointer++;
+		while (*oldPointer	!= ' ' && *oldPointer != ';' && *oldPointer != '|'
+		       && *oldPointer != '&' && *oldPointer != '\0')
 		{
-			*new_pointer = *old_pointer;
-			new_pointer++;
-			old_pointer++;
+			*newPointer = *oldPointer;
+			newPointer++;
+			oldPointer++;
 		}
-		while (*old_pointer == ' ')
-			old_pointer++;
-		if (new_pointer != new_buf && *old_pointer != '\0')
+		while (*oldPointer == ' ')
+			oldPointer++;
+		if (newPointer != currentBuffer && *oldPointer != '\0')
 		{
-			*new_pointer = ' ';
-			new_pointer++;
+			*newPointer = ' ';
+			newPointer++;
 		}
 
-		if (*old_pointer == ';' || *old_pointer == '|' || *old_pointer == '&')
+		if (*oldPointer == ';' || *oldPointer == '|' || *oldPointer == '&')
 		{
-			if (input_err_check(old_pointer) == NEGATIVE)
+			if (errorCheckerForInput(oldPointer) == NEGATIVE)
 			{
-				*old_size = 0;
+				*previousSize = 0;
 				break;
 			}
-			*new_pointer = *old_pointer;
-			if (*old_pointer == ';')
+			*newPointer = *oldPointer;
+			if (*oldPointer == ';')
 			{
-				new_pointer++;
-				*new_pointer = ' ';
+				newPointer++;
+				*newPointer = ' ';
 			}
-			else if (*(old_pointer + 1) == *old_pointer)
+			else if (*(oldPointer + 1) == *oldPointer)
 			{
-				if (new_pointer == new_buf)
+				if (newPointer == currentBuffer)
 				{
-					displayErrorMessage(old_pointer, NULL);
-					*old_size = 0;
+					displayErrorMessage(oldPointer, NULL);
+					*previousSize = 0;
 					break;
 				}
-				new_pointer++;
-				*new_pointer = *old_pointer;
-				new_pointer++;
-				*new_pointer = ' ';
-				old_pointer++;
+				newPointer++;
+				*newPointer = *oldPointer;
+				newPointer++;
+				*newPointer = ' ';
+				oldPointer++;
 			}
-			new_pointer++;
-			old_pointer++;
+			newPointer++;
+			oldPointer++;
 		}
 	}
-	*new_pointer = '\0';
-	free(old_buf);
-	return (new_buf);
+	*newPointer = '\0';
+	free(previousBuffer);
+	return (currentBuffer);
 }
